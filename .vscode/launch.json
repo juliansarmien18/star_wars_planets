@@ -16,6 +16,30 @@
             "django": true,
             "autoStartBrowser": false,
             "program": "${workspaceFolder}\\manage.py"
+        },
+        {
+            "name": "makemigrations dev",
+            "type": "debugpy",
+            "request": "launch",
+            "args": [
+                "makemigrations",
+                "--settings=core.dev_settings"
+            ],
+            "django": true,
+            "autoStartBrowser": false,
+            "program": "${workspaceFolder}\\manage.py"
+        },
+        {
+            "name": "migrate dev",
+            "type": "debugpy",
+            "request": "launch",
+            "args": [
+                "migrate",
+                "--settings=core.dev_settings"
+            ],
+            "django": true,
+            "autoStartBrowser": false,
+            "program": "${workspaceFolder}\\manage.py"
         }
     ]
 }
