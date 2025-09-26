@@ -1,0 +1,38 @@
+[project]
+name = "star_wars_planets"
+version = "0.1.0"
+description = "Proyecto Django para listar planetas de Star Wars"
+authors = [{ name = "Tu Nombre", email = "tu@email.com" }]
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+  "django>=4.2",
+  "requests",
+  "djangorestframework >=3.16.1",
+  "djangorestframework-simplejwt >=5.3.0",
+  "python-dotenv>=1.0.0"
+]
+
+[project.optional-dependencies]
+dev = [
+  "black>=24.3.0",
+  "isort>=5.12.0",
+  "autoflake>=2.2.1",
+  "pyupgrade>=3.15.0",
+  "pre-commit>=3.3.3"
+]
+
+[tool.black]
+line-length = 88
+target-version = ["py310"]
+
+[tool.flake8]
+max-line-length = 88
+extend-ignore = ["E203", "W503"]
+
+[tool.isort]
+profile = "black"
+
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
