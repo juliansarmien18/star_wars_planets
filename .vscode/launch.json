@@ -30,6 +30,19 @@
             "program": "${workspaceFolder}\\manage.py"
         },
         {
+            "name": "run tests",
+            "type": "debugpy",
+            "request": "launch",
+            "args": [
+                "test",
+                "planets.tests.test_api",
+                "--verbosity=1"
+            ],
+            "django": true,
+            "autoStartBrowser": false,
+            "program": "${workspaceFolder}\\manage.py"
+        },
+        {
             "name": "migrate dev",
             "type": "debugpy",
             "request": "launch",
