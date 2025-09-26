@@ -7,11 +7,10 @@ from planets.models import Climate, Planet, Terrain
 
 
 class PlanetViewSetTestCase(APITestCase):
-    """Tests para PlanetViewSet - CRUD básico"""
+    """Test cases for PlanetViewSet - Basic CRUD operations"""
 
     def setUp(self):
-        """Configuración inicial para cada test"""
-        # Crear usuario y autenticarlo
+        """Initial setup for each test"""
         self.user = User.objects.create_user(username="testuser", password="testpass")
         self.client.force_authenticate(user=self.user)
 
@@ -24,7 +23,7 @@ class PlanetViewSetTestCase(APITestCase):
         self.planet = Planet.objects.create(name="Test Planet", population="100000")
 
     def test_create_planet(self):
-        """Test crear planeta"""
+        """Test planet creation"""
         url = reverse("planet-list")
         response = self.client.post(url, self.planet_data, format="json")
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
@@ -32,21 +31,21 @@ class PlanetViewSetTestCase(APITestCase):
         self.assertEqual(Planet.objects.last().name, "Tatooine")
 
     def test_list_planets(self):
-        """Test listar planetas"""
+        """Test planet listing"""
         url = reverse("planet-list")
         response = self.client.get(url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data["results"]), 1)
 
     def test_retrieve_planet(self):
-        """Test obtener planeta específico"""
+        """Test retrieving specific planet"""
         url = reverse("planet-detail", kwargs={"pk": self.planet.pk})
         response = self.client.get(url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data["name"], "Test Planet")
 
     def test_update_planet(self):
-        """Test actualizar planeta"""
+        """Test planet update"""
         url = reverse("planet-detail", kwargs={"pk": self.planet.pk})
         update_data = {"name": "Updated Planet", "population": "300000"}
         response = self.client.put(url, update_data, format="json")
@@ -55,7 +54,7 @@ class PlanetViewSetTestCase(APITestCase):
         self.assertEqual(self.planet.name, "Updated Planet")
 
     def test_partial_update_planet(self):
-        """Test actualización parcial de planeta"""
+        """Test partial planet update"""
         url = reverse("planet-detail", kwargs={"pk": self.planet.pk})
         update_data = {"population": "500000"}
         response = self.client.patch(url, update_data, format="json")
@@ -64,14 +63,14 @@ class PlanetViewSetTestCase(APITestCase):
         self.assertEqual(self.planet.population, 500000)
 
     def test_delete_planet(self):
-        """Test eliminar planeta"""
+        """Test planet deletion"""
         url = reverse("planet-detail", kwargs={"pk": self.planet.pk})
         response = self.client.delete(url)
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
         self.assertEqual(Planet.objects.count(), 0)
 
     def test_search_planets(self):
-        """Test búsqueda de planetas"""
+        """Test planet search functionality"""
         url = reverse("planet-list")
         response = self.client.get(url, {"search": "Test"})
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -79,11 +78,10 @@ class PlanetViewSetTestCase(APITestCase):
 
 
 class ClimateViewSetTestCase(APITestCase):
-    """Tests para ClimateViewSet - CRUD básico"""
+    """Test cases for ClimateViewSet - Basic CRUD operations"""
 
     def setUp(self):
-        """Configuración inicial para cada test"""
-        # Crear usuario y autenticarlo
+        """Initial setup for each test"""
         self.user = User.objects.create_user(username="testuser", password="testpass")
         self.client.force_authenticate(user=self.user)
 
@@ -91,7 +89,7 @@ class ClimateViewSetTestCase(APITestCase):
         self.climate = Climate.objects.create(name="hot")
 
     def test_create_climate(self):
-        """Test crear clima"""
+        """Test climate creation"""
         url = reverse("climate-list")
         response = self.client.post(url, self.climate_data, format="json")
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
@@ -99,21 +97,21 @@ class ClimateViewSetTestCase(APITestCase):
         self.assertEqual(Climate.objects.last().name, "arid")
 
     def test_list_climates(self):
-        """Test listar climas"""
+        """Test climate listing"""
         url = reverse("climate-list")
         response = self.client.get(url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data["results"]), 1)
 
     def test_retrieve_climate(self):
-        """Test obtener clima específico"""
+        """Test retrieving specific climate"""
         url = reverse("climate-detail", kwargs={"pk": self.climate.pk})
         response = self.client.get(url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data["name"], "hot")
 
     def test_update_climate(self):
-        """Test actualizar clima"""
+        """Test climate update"""
         url = reverse("climate-detail", kwargs={"pk": self.climate.pk})
         update_data = {"name": "cold"}
         response = self.client.put(url, update_data, format="json")
@@ -122,7 +120,7 @@ class ClimateViewSetTestCase(APITestCase):
         self.assertEqual(self.climate.name, "cold")
 
     def test_partial_update_climate(self):
-        """Test actualización parcial de clima"""
+        """Test partial climate update"""
         url = reverse("climate-detail", kwargs={"pk": self.climate.pk})
         update_data = {"name": "windy"}
         response = self.client.patch(url, update_data, format="json")
@@ -131,14 +129,14 @@ class ClimateViewSetTestCase(APITestCase):
         self.assertEqual(self.climate.name, "windy")
 
     def test_delete_climate(self):
-        """Test eliminar clima"""
+        """Test climate deletion"""
         url = reverse("climate-detail", kwargs={"pk": self.climate.pk})
         response = self.client.delete(url)
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
         self.assertEqual(Climate.objects.count(), 0)
 
     def test_search_climates(self):
-        """Test búsqueda de climas"""
+        """Test climate search functionality"""
         url = reverse("climate-list")
         response = self.client.get(url, {"search": "hot"})
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -146,11 +144,10 @@ class ClimateViewSetTestCase(APITestCase):
 
 
 class TerrainViewSetTestCase(APITestCase):
-    """Tests para TerrainViewSet - CRUD básico"""
+    """Test cases for TerrainViewSet - Basic CRUD operations"""
 
     def setUp(self):
-        """Configuración inicial para cada test"""
-        # Crear usuario y autenticarlo
+        """Initial setup for each test"""
         self.user = User.objects.create_user(username="testuser", password="testpass")
         self.client.force_authenticate(user=self.user)
 
@@ -158,7 +155,7 @@ class TerrainViewSetTestCase(APITestCase):
         self.terrain = Terrain.objects.create(name="mountain")
 
     def test_create_terrain(self):
-        """Test crear terreno"""
+        """Test terrain creation"""
         url = reverse("terrain-list")
         response = self.client.post(url, self.terrain_data, format="json")
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
@@ -166,21 +163,21 @@ class TerrainViewSetTestCase(APITestCase):
         self.assertEqual(Terrain.objects.last().name, "desert")
 
     def test_list_terrains(self):
-        """Test listar terrenos"""
+        """Test terrain listing"""
         url = reverse("terrain-list")
         response = self.client.get(url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data["results"]), 1)
 
     def test_retrieve_terrain(self):
-        """Test obtener terreno específico"""
+        """Test retrieving specific terrain"""
         url = reverse("terrain-detail", kwargs={"pk": self.terrain.pk})
         response = self.client.get(url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data["name"], "mountain")
 
     def test_update_terrain(self):
-        """Test actualizar terreno"""
+        """Test terrain update"""
         url = reverse("terrain-detail", kwargs={"pk": self.terrain.pk})
         update_data = {"name": "plateau"}
         response = self.client.put(url, update_data, format="json")
@@ -189,7 +186,7 @@ class TerrainViewSetTestCase(APITestCase):
         self.assertEqual(self.terrain.name, "plateau")
 
     def test_partial_update_terrain(self):
-        """Test actualización parcial de terreno"""
+        """Test partial terrain update"""
         url = reverse("terrain-detail", kwargs={"pk": self.terrain.pk})
         update_data = {"name": "canyon"}
         response = self.client.patch(url, update_data, format="json")
@@ -198,14 +195,14 @@ class TerrainViewSetTestCase(APITestCase):
         self.assertEqual(self.terrain.name, "canyon")
 
     def test_delete_terrain(self):
-        """Test eliminar terreno"""
+        """Test terrain deletion"""
         url = reverse("terrain-detail", kwargs={"pk": self.terrain.pk})
         response = self.client.delete(url)
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
         self.assertEqual(Terrain.objects.count(), 0)
 
     def test_search_terrains(self):
-        """Test búsqueda de terrenos"""
+        """Test terrain search functionality"""
         url = reverse("terrain-list")
         response = self.client.get(url, {"search": "mountain"})
         self.assertEqual(response.status_code, status.HTTP_200_OK)

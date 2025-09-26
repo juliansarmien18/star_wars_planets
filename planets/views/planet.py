@@ -14,6 +14,20 @@ from planets.serializers import PlanetSerializer
 
 
 class PlanetViewSet(viewsets.ModelViewSet):
+    """
+    ViewSet for managing planets.
+
+    Provides CRUD operations for planets including:
+    - List all planets with pagination and search
+    - Retrieve specific planet details
+    - Create new planets with climate and terrain associations
+    - Update existing planets
+    - Delete planets
+    - Sync planets from external SWAPI API
+
+    Search functionality allows filtering by planet name.
+    """
+
     queryset = Planet.objects.all().order_by("name")
     serializer_class = PlanetSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
@@ -23,6 +37,7 @@ class PlanetViewSet(viewsets.ModelViewSet):
 
     @transaction.atomic
     def perform_create(self, serializer):
+        """Create a new planet with atomic transaction."""
         try:
             serializer.save()
         except Exception as e:
@@ -30,6 +45,7 @@ class PlanetViewSet(viewsets.ModelViewSet):
 
     @transaction.atomic
     def perform_update(self, serializer):
+        """Update an existing planet with atomic transaction."""
         try:
             serializer.save()
         except Exception as e:
@@ -38,6 +54,15 @@ class PlanetViewSet(viewsets.ModelViewSet):
     @action(detail=False, methods=["GET"], url_path="sync")
     @api_response_handler
     def sync_from_swapi(self, request):
+        """
+        Sync planets from external SWAPI API.
+
+        Fetches planet data from SWAPI and creates/updates local planet records.
+        Requires SWAPI_PLANETS_URL environment variable to be set.
+
+        Returns:
+            dict: Response with number of planets imported or updated
+        """
         url = os.getenv("SWAPI_PLANETS_URL")
         if not url:
             raise Exception("SWAPI_PLANETS_URL not set in .env")

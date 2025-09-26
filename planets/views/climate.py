@@ -10,7 +10,16 @@ from planets.serializers import ClimateSerializer
 
 class ClimateViewSet(viewsets.ModelViewSet):
     """
-    ViewSet para manejar CRUD de Climate
+    ViewSet for managing climates.
+
+    Provides CRUD operations for climates including:
+    - List all climates with pagination and search
+    - Retrieve specific climate details
+    - Create new climates
+    - Update existing climates
+    - Delete climates
+
+    Search functionality allows filtering by climate name.
     """
 
     queryset = Climate.objects.all().order_by("name")
@@ -22,6 +31,7 @@ class ClimateViewSet(viewsets.ModelViewSet):
 
     @transaction.atomic
     def perform_create(self, serializer):
+        """Create a new climate with atomic transaction."""
         try:
             serializer.save()
         except Exception as e:
@@ -29,6 +39,7 @@ class ClimateViewSet(viewsets.ModelViewSet):
 
     @transaction.atomic
     def perform_update(self, serializer):
+        """Update an existing climate with atomic transaction."""
         try:
             serializer.save()
         except Exception as e:
@@ -36,6 +47,7 @@ class ClimateViewSet(viewsets.ModelViewSet):
 
     @transaction.atomic
     def perform_destroy(self, instance):
+        """Delete a climate with atomic transaction."""
         try:
             instance.delete()
         except Exception as e:
