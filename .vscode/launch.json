@@ -6,7 +6,7 @@
     "configurations": [
 
         {
-            "name": "Debug dev",
+            "name": "debug dev",
             "type": "debugpy",
             "request": "launch",
             "args": [
@@ -15,7 +15,7 @@
             ],
             "django": true,
             "autoStartBrowser": false,
-            "program": "${workspaceFolder}\\star_wars_planets\\manage.py"
+            "program": "${workspaceFolder}\\manage.py"
         }
     ]
 }
